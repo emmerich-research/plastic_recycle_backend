@@ -9,7 +9,7 @@ class UserApi {
     router.post('/login', (Request request) async {
       final content = await request.readAsString();
       var queryParams = Uri(query: content).queryParameters;
-      
+
       return Response.ok(
         headers: {'Content-type': 'application/json'},
         json.encode({
