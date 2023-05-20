@@ -61,7 +61,6 @@ class DataFetcher {
       await connection!.open();
       dataResult = await connection!.query("""
           SELECT id FROM $destination
-          WHERE label_id = $labelId
           ORDER BY id DESC
           LIMIT 1
           """, allowReuse: false);

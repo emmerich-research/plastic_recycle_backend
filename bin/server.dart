@@ -2,10 +2,11 @@ import 'dart:io';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
+import 'package:shelf_cors_headers/shelf_cors_headers.dart';
 
 import 'images/get.dart';
+import 'images/image_uploader.dart';
 import 'labels/label.dart';
-import 'images/upload.dart';
 import 'user/user.dart';
 
 // Configure routes.
@@ -16,11 +17,11 @@ void main(List<String> args) async {
   // Configure a pipeline that logs requests.
   final router = Router();
   router.mount('/user', UserApi().router);
-  router.mount('/upload', UploadAPI().router);
+  router.mount('/api/upload', UploadAPI().router);
   router.mount('/labels', Labels().router);
   router.mount('/images', Images().router);
 
-  final handler = Pipeline().addMiddleware(logRequests()).addHandler(router);
+  final handler = Pipeline().addMiddleware(corsHeaders()).addHandler(router);
 
   // For running in containers, we respect the PORT environment variable.
   final port = int.parse(Platform.environment['PORT'] ?? '14450');
